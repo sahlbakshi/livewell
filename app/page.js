@@ -5,11 +5,13 @@ import Chats from "./components/chats";
 import Thread from "./components/thread";
 
 export default function Home() {
+  // Roles defined
   const roles = {
     PATIENT: "PATIENT",
     DOCTOR: "DOCTOR"
   }
 
+  // Array of users
   const users = [
     {role: roles.PATIENT, active: true, name: "Patient Mila"}, 
     {role: roles.DOCTOR, active: true, name: "Doctor Sam"},
@@ -17,17 +19,20 @@ export default function Home() {
     {role: roles.DOCTOR, active: false, name: "Doctor Sarah"}
   ]
 
-  const [threads, setThreads] = useState([
-    [{sender: 1, message: "Hi Doctor"}, {sender: 0, message: "Hi there!"}],
-    [{sender: 0, message: "Hi Doctor"}, {sender: 0, message: "We have an appointment"}, {sender: 1, message: "Lets get started then"}],
-    [],
-    []
-  ])
-
+  // Dictionary of threads where each thread is a conversation
+  // A conversation is an array that has parts wher each part has:
+  //  sender: represents who sends the message
+  //  message: content of the message
+  // Keys represents the user index - eg: 0 is for users[0] 
+  const [threads, setThreads] = useState({
+    0: [{sender: 1, message: "Hi Doctor"}, {sender: 0, message: "Hi there!"}],
+    1: [{sender: 0, message: "Hi Doctor"}, {sender: 0, message: "We have an appointment"}, {sender: 1, message: "Lets get started then"}],
+  })
+  
   const [role, setRole] = useState(roles.PATIENT)
-  const [currThreadIndex, setCurrThreadIndex] = useState(0);
+  const [currThreadIndex, setCurrThreadIndex] = useState(0)
   const [message, setMessage] = useState('')
-
+  
   const handleMessageChange = (event) => {
     setMessage(event.target.value)
   }
@@ -39,13 +44,17 @@ export default function Home() {
       sender = 1
     }
     const updatedThread = [...threads[currThreadIndex], { sender: sender, message: message }]
-    const updatedThreads = threads.map((thread, index) => index === currThreadIndex ? updatedThread : thread)
+    const updatedThreads = {...threads, [currThreadIndex]: updatedThread}
     setThreads(updatedThreads)
     setMessage("")
   }
 
   const handleChatChange = (index) => {
-    setCurrThreadIndex(index)
+    if (!(index in threads)) {
+      const updatedThreads = {...threads, [index]: []}
+      setThreads(updatedThreads);
+    }
+    setCurrThreadIndex(index);
   }
 
   return (

@@ -1,3 +1,6 @@
+import react from "react";
+
+// Represents the thread conversation
 export default function Thread({user, index, threads}) {
     return (
       <div>

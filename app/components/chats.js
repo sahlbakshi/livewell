@@ -1,3 +1,6 @@
+import react from "react";
+
+// Represents the chats - active and not
 export default function Chats({ users, onChatChange }) {
   return (
     <div className="flex flex-col gap-6 text-lg">
