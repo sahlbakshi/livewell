@@ -20,7 +20,7 @@ export default function Home() {
   ]
 
   // Dictionary of threads where each thread is a conversation
-  // A conversation is an array that has parts wher each part has:
+  // A conversation is an array that has parts where each part has:
   //  sender: represents who sends the message
   //  message: content of the message
   // Keys represents the user index - eg: 0 is for users[0] 
@@ -52,9 +52,10 @@ export default function Home() {
   const handleChatChange = (index) => {
     if (!(index in threads)) {
       const updatedThreads = {...threads, [index]: []}
-      setThreads(updatedThreads);
+      setThreads(updatedThreads)
+      users[index].active = true
     }
-    setCurrThreadIndex(index);
+    setCurrThreadIndex(index)
   }
 
   return (
